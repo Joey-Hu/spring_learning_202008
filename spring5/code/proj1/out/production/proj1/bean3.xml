@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--内部bean-->
+    <bean id="employee" class="com.joeyhu.spring5.innerbean.Employee">
+        <property name="eName" value="Adam"></property>
+        <property name="eGender" value="male"></property>
+        <!--设置对象类型属性-->
+        <property name="dept">
+            <bean id="dept" class="com.joeyhu.spring5.innerbean.Dept">
+                <property name="dName" value="安保部"></property>
+            </bean>
+        </property>
+    </bean>
+
+
+</beans>
