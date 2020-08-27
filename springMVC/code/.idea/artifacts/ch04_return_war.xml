@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="ch04_return:war">
-    <output-path>$PROJECT_DIR$/ch04_return/target</output-path>
-    <root id="archive" name="ch04_return-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="ch04_return:war exploded" />
-    </root>
-  </artifact>
-</component>

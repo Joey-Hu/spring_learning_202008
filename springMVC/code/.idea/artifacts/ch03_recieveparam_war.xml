@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="ch03_recieveparam:war">
-    <output-path>$PROJECT_DIR$/ch03_recieveparam/target</output-path>
-    <root id="archive" name="ch03_recieveparam-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="ch03_recieveparam:war exploded" />
-    </root>
-  </artifact>
-</component>
