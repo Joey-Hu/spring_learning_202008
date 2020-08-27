@@ -5,6 +5,7 @@
     <file type="web" url="file://$PROJECT_DIR$/ch02_requestmapping" />
     <file type="web" url="file://$PROJECT_DIR$/ch03_recieveparam" />
     <file type="web" url="file://$PROJECT_DIR$/ch04_return" />
+    <file type="web" url="file://$PROJECT_DIR$/ch05_url_pattern" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -13,6 +14,7 @@
         <option value="$PROJECT_DIR$/ch02_requestmapping/pom.xml" />
         <option value="$PROJECT_DIR$/ch03_recieveparam/pom.xml" />
         <option value="$PROJECT_DIR$/ch04_return/pom.xml" />
+        <option value="$PROJECT_DIR$/ch05_url_pattern/pom.xml" />
       </list>
     </option>
   </component>

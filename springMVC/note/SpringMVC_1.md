@@ -836,11 +836,103 @@ org.springframework.http.converter.support.AllEncompassingFormHttpMessageConvert
 org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter
 org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 
+#### \<url-pattern\>
 
+##### 配置详解
 
+**1)  *.do**
 
+在没有特殊要求下，SpringMVC 的中央调度器 DispatcherServlet 的 \<url-pattern\> 常使用后缀匹配方式，如 *.do 或 *.action，\*.mvc等。
 
+**2) /**
 
+DispatcherServlet 会将向静态资源的获取请求，例如 .css 、.js 、.jpg、.png 等资源的获取请求，当作是一个普通的 Controller请求。 中央调度器会调用处理器映射器为其查找相应的处理器，当然是找不到的，在这种情况下，所有的静态资源获取请求会报 404 错误。
+
+原因：Tomcat 中有一个专门用于处理静态资源访问的 Servlet 叫做 DefaultServlet，当使用 / 时，中央调度器会替代 DefaultServlet，而中央调度器又找不到相应的 Servlet，则会报 404 错误。
+
+web.xml：使用 / 来映射所有类型请求
+
+![url_pattern_1.png](./images/url_pattern_1.png)
+
+静态资源：
+
+![static_sources.png](./images/static_sources.png)
+
+请求静态资源：index.jsp
+
+![statice_source_request.png](./images/statice_source_request.png)
+
+请求结果：
+
+![static_resource_result.png](./images/static_resource_result.png)
+
+当把 / 换成 *.do 后，静态资源即可访问。
+
+那如何解决呢？
+
+##### 静态资源访问
+
+**1. 使用\<mvc:default-servlet-handler\>**
+
+声明了 \<mvc:default-servlet-handler\> 后，SpringMVC 框架会在容器中创建 DefaultServletHttpRequestHandler 处理器对象，它会对进入DispatchServlet 的请求进行筛查，当是对请求静态资源的请求时，会将该请求转给 web 应用服务器（如：tomcat）的Servlet 处理。
+
+在 springmvc.xml 中添加 \<mvc:default-servlet-handler\> 标签即可。
+
+注意：default-servlet-handler 和 @RequestMapping 注解有冲突，需要加入 annotation-driver 解决
+
+映入约束
+
+![schema.png](./images/schema.png)
+
+添加标签：
+
+![default_servlet_handler.png](./images/default_servlet_handler.png)
+
+**2. 使用\<mvc:resources\>（常用）**
+
+在 Spring3.0 版本后，Spring 定义了专门用于处理静态资源访问请求处理器 ResourceHttpRequestHandler。并且添加了 \<mvc:resources/\> 标签，专门用于解决静态资源无法访问题。 需要在 SpringMVC 配置文件中添加如下形式的配置：
+
+![resources.png](./images/resources.png)
+
+加入\<mvc:resources\> 标签后，框架会创建 ResourceHttpRequestHandler 处理器对象，由该处理器对象处理静态资源访问，不依赖 tomcat 服务器，同样\<mvc:resources\> 和 @RequestMapping 存在冲突，需要添加注解驱动。
+
+属性：
+
+* locaton：表示静态资源所在目录，目录不要是/WEB-INF/及其子目录
+* mapping：访问静态资源的URI，以**结尾表示该目录下的所有资源
+
+简化：
+
+将所有静态资源都放到同一个文件夹中，放到 /webapp/static 目录下
+
+![simple_static_resource.png](./images/simple_static_resource.png)
+
+如此配置之后，请求也不用写成 *.do了，直接写成 * 即可，更加符合现实开发的规则。
+
+![url.png](./images/url.png)
+
+index.jsp
+
+```jsp
+<form action="urlPattern" method="post">
+    姓名：<input type="text" name="name"> <br>
+    年龄：<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数">
+</form>
+```
+
+controller
+
+```java
+@RequestMapping(value = "/urlPattern")
+public ModelAndView doURLPattern(String name, Integer age) {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.addObject("myName", name);
+    modelAndView.addObject("myAge", age);
+    modelAndView.setViewName("show");
+    return modelAndView;
+}
+```
 
 
 
