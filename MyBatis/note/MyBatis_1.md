@@ -477,7 +477,79 @@ public void insertGetIdTest() throws Exception {
 
 ![getId.png](./images/getId.png)
 
+#### MyBatis 中 @Param 注解的四种使用场景
 
+以下几个场景需要用到 @Param 注解：
+
+* 一、方法有多个参数（最常见）
+
+```java
+public interface UserMapper {
+    Integer insert(@Param("username") String username, @Param("address") String address);
+}
+```
+
+​		对应的 XML 中：
+
+```xml
+<insert id="insert" parameterType="org.javaboy.helloboot.bean.User">
+    insert into user (username,address) values (#{username},#{address});
+</insert>
+```
+
+* 二、方法参数需要取别名（费事，需求不多）
+
+```java
+public interface UserMapper {
+    User getUserByUsername(@Param("name") String username);
+}
+```
+
+对应的 XML 中：
+
+```xml
+<select id="getUserByUsername" parameterType="org.javaboy.helloboot.bean.User">
+    select * from user where username=#{name};
+</select>
+```
+
+* 三、XML 中的 SQL 使用了 $，$ 会有注入漏洞的问题，但是有的时候你不得不使用 $ 符号，例如要传入列名或者表名的时候，这个时候必须要添加 @Param 注解
+
+```java
+public interface UserMapper {
+    List<User> getAllUsers(@Param("order_by")String order_by);
+}
+```
+
+对应的 XML 中：
+
+```xml
+<select id="getAllUsers" resultType="org.javaboy.helloboot.bean.User">
+    select * from user
+    <if test="order_by!=null and order_by!=''">
+        order by ${order_by} desc
+    </if>
+</select>
+```
+
+* 四、动态 SQL，如果动态 SQL 使用了参数作为变量，需要在接口对象中使用 @Param 注解
+
+```java
+public interface UserMapper {
+    List<User> getUserById(@Param("id")Integer id);
+}
+```
+
+对应的 XML 中：
+
+```xml
+<select id="getUserById" resultType="org.javaboy.helloboot.bean.User">
+    select * from user
+    <if test="id!=null">
+        where id=#{id}
+    </if>
+</select>
+```
 
 ### 连接池及事务
 
