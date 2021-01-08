@@ -382,7 +382,7 @@ public class MyController {
 
  web 开发底层是 servlet，springMVC 中有一个对象是 servlet：Dispatcher（中央调度器），主要用于接受用户的**所有请求**，用户把请求给 DispatcherServlet，之后 DispacherServlet 把请求转发给对应 Controller 对象（@Controller 注解创建的对象），最后由 Controller 对象处理请求。
 
-![springMVC_flow.png](D:/Desktop/SpringMVC_note/images/springMVC_flow.png)
+![springMVC_flow.png](./images/springMVC_flow.png)
 
 1.用户发送请求至前端控制器DispatcherServlet
 
@@ -414,7 +414,7 @@ public class MyController {
 
 ##### **指定模块名称**
 
-通过 @RequestMapping 注解可以定义处理器对于请求的映射规则。该注解可以在方 法上 ，也可以注解在类上 ，但意义是不同的。
+通过 @RequestMapping 注解可以定义处理器对于请求的映射规则。该注解可以在方法上 ，也可以注解在类上 ，但意义是不同的。
 
 一个控制器类可以有多个控制器方法，一个控制器方法的匹配规则可以有多个 URI，当这些 URI 请求有相同的部分时，可以抽取到注解在类上的 @RequestMapping 的 value 属性中。
 
@@ -817,14 +817,13 @@ pw.flush();
 pw.close();
 ```
 
-==============================================================================================
+------
 
 没有加入注解驱动标签<mvc:annotation-driven /> 时的状态
 org.springframework.http.converter.ByteArrayHttpMessageConverter
 org.springframework.http.converter.StringHttpMessageConverter
 org.springframework.http.converter.xml.SourceHttpMessageConverter
 org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter
-
 
 加入注解驱动标签时<mvc:annotation-driven />的状态
 org.springframework.http.converter.ByteArrayHttpMessageConverter
